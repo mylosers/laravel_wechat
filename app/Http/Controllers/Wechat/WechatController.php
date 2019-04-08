@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Storage;
 class WechatController extends Controller
 {
     /**
+     * 测试
+     */
+    public function test(){
+        echo 1;
+    }
+    /**
      * 首次接入
      */
     public function validToken1()

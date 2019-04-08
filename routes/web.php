@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::get('/wechat/url','Wechat\WechatController@validToken1');   //接入
+Route::post('/wechat/url','Wechat\WechatController@wxEvent');   //接入
+

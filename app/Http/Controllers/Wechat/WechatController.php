@@ -34,6 +34,7 @@ class WechatController extends Controller
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log', $log_str, FILE_APPEND);
+        echo "SUCCESS";die;
         $ToUserName = $xml->ToUserName;         //开发者微信号
         $FromUserName = $xml->FromUserName;     //发送方帐号  用户openid
         $CreateTime = $xml->CreateTime;         //消息创建时间

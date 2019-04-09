@@ -12,8 +12,6 @@ use App\Model\WeixinUser;
 class WechatController extends Controller
 {
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
-
-
     /**
      * 首次接入
      */
@@ -31,10 +29,8 @@ class WechatController extends Controller
     public function wxEvent()
     {
         $data = file_get_contents("php://input");
-
         //解析XML
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
-
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log', $log_str, FILE_APPEND);

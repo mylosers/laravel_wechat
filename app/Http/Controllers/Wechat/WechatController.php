@@ -15,7 +15,7 @@ class WechatController extends Controller
     /**
      * 首次接入
      */
-    public function validToken1()
+    public function getEvent()
     {
         //$get = json_encode($_GET);
         //$str = '>>>>>' . date('Y-m-d H:i:s') .' '. $get . "<<<<<\n";

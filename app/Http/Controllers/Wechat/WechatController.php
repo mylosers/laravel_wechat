@@ -89,7 +89,8 @@ class WechatController extends Controller
 
     /**
      * 获取用户信息
-     * @param $openid
+     * @param $FromUserName
+     * @return mixed
      */
     public function getUserInfo($FromUserName)
     {
@@ -99,4 +100,5 @@ class WechatController extends Controller
         echo '<pre>';print_r($data);echo '</pre>';
         return $data;
     }
+
 }

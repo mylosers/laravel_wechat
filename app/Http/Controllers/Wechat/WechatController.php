@@ -49,7 +49,7 @@ class WechatController extends Controller
                     $u = WeixinUser::where(['FromUserName' => $FromUserName])->first();
                     if ($u) {       //用户不存在
                         //echo '用户已存在';
-                        $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[' . '欢迎回来' . date('Y-m-d H:i:s') . ']]></Content></xml>';
+                        $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[' . '欢迎回来'.$user_info['nickname'] .date('Y-m-d H:i:s') . ']]></Content></xml>';
                         echo $xml_response;
                     } else {
                         $user_data = [
@@ -62,7 +62,7 @@ class WechatController extends Controller
                         ];
 
                         WeixinUser::insertGetId($user_data);      //保存用户信息
-                        $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[' . 'Hello 欢迎关注' . date('Y-m-d H:i:s') . ']]></Content></xml>';
+                        $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[' . 'Hello'.$user_info['nickname'].', 欢迎关注' . date('Y-m-d H:i:s') . ']]></Content></xml>';
                         echo $xml_response;
                     }
                 }

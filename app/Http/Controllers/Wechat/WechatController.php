@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Redis;
+use Illuminate\Support\Facades\Redis;
 
 class WechatController extends Controller
 {

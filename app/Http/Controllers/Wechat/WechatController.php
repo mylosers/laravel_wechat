@@ -83,23 +83,25 @@ class WechatController extends Controller
                     echo $xml_response;
                 }
             }elseif($xml->MsgType=='image'){       //用户发送图片信息
-                //视业务需求是否需要下载保存图片
-                if(1){  //下载图片素材
-                    $file_name = $this->dlWxImg($xml->MediaId);
-                    //写入数据库
-                    $data = [
-                        'openid'    => $FromUserName,
-                        'add_time'  => time(),
-                        'msg_type'  => 'image',
-                        'media_id'  => $xml->MediaId,
-                        'format'    => $xml->Format,
-                        'msg_id'    => $xml->MsgId,
-                        'local_file_name'   => $file_name
-                    ];
-                    $m_id = WeixinMedia::insertGetId($data);
-                    if($m_id){
-                        $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
-                        echo $xml_response;
+                $ok=$file_name = $this->dlWxImg($xml->MediaId);
+                if($ok){
+                    $media_id=WeixinMedia::where(['media_id'=>$xml->MediaId])->first();
+                    if(!$media_id){
+                        //写入数据库
+                        $data = [
+                            'openid'    => $FromUserName,
+                            'add_time'  => time(),
+                            'msg_type'  => 'image',
+                            'media_id'  => $xml->MediaId,
+                            'format'    => $xml->Format,
+                            'msg_id'    => $xml->MsgId,
+                            'local_file_name'   => $file_name
+                        ];
+                        $m_id = WeixinMedia::insertGetId($data);
+                        if($m_id){
+                            $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
+                            echo $xml_response;
+                        }
                     }
                 }
             }elseif($xml->MsgType=='voice'){        //处理语音信息

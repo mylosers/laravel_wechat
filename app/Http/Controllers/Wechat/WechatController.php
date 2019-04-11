@@ -83,27 +83,23 @@ class WechatController extends Controller
                     echo $xml_response;
                 }
             }elseif($xml->MsgType=='image'){       //用户发送图片信息
-                $ok=$file_name = $this->dlWxImg($xml->MediaId);
-                if($ok==true){
-                    $media_id=WeixinMedia::where(['media_id'=>$xml->MediaId])->first();
-                    if(!$media_id){
-                        //写入数据库
-                        $data = [
-                            'openid'    => $FromUserName,
-                            'add_time'  => time(),
-                            'msg_type'  => 'image',
-                            'media_id'  => $xml->MediaId,
-                            'format'    => $xml->Format,
-                            'msg_id'    => $xml->MsgId,
-                            'local_file_name'   => $file_name
-                        ];
-                        $m_id = WeixinMedia::insertGetId($data);
-                        if($m_id){
-                            $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
-                            echo $xml_response;
-                        }
+                //视业务需求是否需要下载保存图片
+                    $file_name = $this->dlWxImg($xml->MediaId);
+                    //写入数据库
+                    $data = [
+                        'openid'    => $FromUserName,
+                        'add_time'  => time(),
+                        'msg_type'  => 'image',
+                        'media_id'  => $xml->MediaId,
+                        'format'    => $xml->Format,
+                        'msg_id'    => $xml->MsgId,
+                        'local_file_name'   => $file_name
+                    ];
+                    $m_id = WeixinMedia::insertGetId($data);
+                    if($m_id){
+                        $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
+                        echo $xml_response;
                     }
-                }
             }elseif($xml->MsgType=='voice'){        //处理语音信息
                 $this->dlVoice($xml->MediaId);
                 $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. date('Y-m-d H:i:s') .']]></Content></xml>';
@@ -250,10 +246,15 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = '/wechat/images/'.$file_name;
+        $wx_image_path = 'wechat/images/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
-        return $r;
+        if($r){     //保存成功
+            echo "ok";
+        }else{      //保存失败
+            echo "no";
+            exit;
+        }
     }
 
     /**
@@ -272,13 +273,14 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = '/wechat/voice/'.$file_name;
+        $wx_image_path = 'wechat/voice/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){     //保存成功
-            return "OK";
+            echo "OK";
         }else{      //保存失败
-            return "NO";
+            echo "NO";
+            exit;
         }
     }
 
@@ -298,13 +300,14 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = '/wechat/video/'.$file_name;
+        $wx_image_path = 'wechat/video/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){     //保存成功
-            return "OK";
+            echo "OK";
         }else{      //保存失败
-            return "NO";
+            echo "NO";
+            exit;
         }
     }
 

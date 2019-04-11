@@ -101,4 +101,89 @@ class WechatController extends Controller
         return $data;
     }
 
+    /**
+     * 创建服务号菜单
+     */
+    public function CustomMenu(){
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token();
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $data = [
+            "button"    => [
+                [
+                    "name" => "相册拍照",
+                    "sub_button" => [
+                        [
+                            "type"  => "pic_sysphoto",      // view类型 跳转指定 URL
+                            "name"  => "系统拍照发图",
+                            "key"   => "rselfmenu_1_0",
+                            "sub_button"=> [ ]
+                        ],
+                        [
+                            "type" =>  "pic_photo_or_album",
+                            "name" => "拍照或者相册发图",
+                            "key" => "rselfmenu_1_1",
+                            "sub_button" => [ ]
+                        ],
+                        [
+                            "type" => "pic_weixin",
+                            "name" => "微信相册发图",
+                            "key" => "rselfmenu_1_2",
+                            "sub_button" => [ ]
+                        ]
+                    ]
+                ],
+                [
+                    "name" => "点击跳转",
+                    "sub_button" => [
+                        [
+                            "name" => "发送位置",
+                            "type" => "location_select",
+                            "key" => "rselfmenu_2_0"
+                        ],
+                        [
+                            "name" => "回复时间",
+                            'type' => "click",
+                            "key" => "kefu01"
+                        ],
+                        [
+                            "name" => "哔哩哔哩",
+                            'type' => "view",
+                            "url" => "https://www.bilibili.com/"
+                        ]
+                    ]
+                ],
+                [
+                    "name" => "扫码功能",
+                    "sub_button" => [
+                        [
+                            "name" => "扫码带提示",
+                            "type" => "scancode_waitmsg",
+                            "key" => "rselfmenu_0_0",
+                            "sub_button"=>[
+                                'text'=>"text"
+                            ]
+                        ],
+                        [
+                            "name" => "扫码推事件",
+                            "type" => "scancode_push",
+                            "key" => "rselfmenu_0_1",
+                            "sub_button"=>[]
+                        ],
+                    ]
+                ]
+            ]
+        ];
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
+        ]);
+        // 3 解析微信接口返回信息
+        $response_arr = json_decode($r->getBody(),true);
+        if($response_arr['errcode'] == 0){
+            echo "菜单创建成功";
+        }else{
+            echo "菜单创建失败，请重试";echo '</br>';
+            echo $response_arr['errmsg'];
+        }
+    }
+
 }

@@ -84,7 +84,7 @@ class WechatController extends Controller
                 }
             }elseif($xml->MsgType=='image'){       //用户发送图片信息
                 $ok=$file_name = $this->dlWxImg($xml->MediaId);
-                if($ok){
+                if($ok=="ok"){
                     $media_id=WeixinMedia::where(['media_id'=>$xml->MediaId])->first();
                     if(!$media_id){
                         //写入数据库

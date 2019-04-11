@@ -250,14 +250,13 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = 'wechat/images/'.$file_name;
+        $wx_image_path = '/wechat/images/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){     //保存成功
-            echo "ok";
+            return "ok";
         }else{      //保存失败
-            echo "no";
-            exit;
+            return  "no";
         }
     }
 
@@ -277,14 +276,13 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = 'wechat/voice/'.$file_name;
+        $wx_image_path = '/wechat/voice/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){     //保存成功
-            echo "OK";
+            return "OK";
         }else{      //保存失败
-            echo "NO";
-            exit;
+            return "NO";
         }
     }
 
@@ -304,14 +302,13 @@ class WechatController extends Controller
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
 
-        $wx_image_path = 'wechat/video/'.$file_name;
+        $wx_image_path = '/wechat/video/'.$file_name;
         //保存图片
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){     //保存成功
-            echo "OK";
+            return "OK";
         }else{      //保存失败
-            echo "NO";
-            exit;
+            return "NO";
         }
     }
 

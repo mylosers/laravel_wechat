@@ -240,6 +240,8 @@ class WechatController extends Controller
         //保存图片
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
+        //$h = $response->getHeaders();
+
         //获取文件名
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
@@ -265,6 +267,8 @@ class WechatController extends Controller
 
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
+        //$h = $response->getHeaders();
+        //echo '<pre>';print_r($h);echo '</pre>';die;
         //获取文件名
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);
@@ -290,6 +294,8 @@ class WechatController extends Controller
 
         $client = new GuzzleHttp\Client();
         $response = $client->get($url);
+        //$h = $response->getHeaders();
+        //echo '<pre>';print_r($h);echo '</pre>';die;
         //获取文件名
         $file_info = $response->getHeader('Content-disposition');
         $file_name = substr(rtrim($file_info[0],'"'),-20);

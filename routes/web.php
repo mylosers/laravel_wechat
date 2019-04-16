@@ -20,5 +20,5 @@ Route::get('/', function () {
 Route::get('/wechat/url','Wechat\WechatController@getEvent');   //接入
 Route::post('/wechat/url','Wechat\WechatController@wxEvent');   //接入
 Route::get('/wechat/access_token','Wechat\WechatController@access_token');   //获取access_token
-Route::get('/wechat/CustomMenu','Wechat\WechatController@CustomMenu');   //获取access_token
-Route::get('/wechat/dlWxImg','Wechat\WechatController@dlWxImg');   //获取access_token
+Route::get('/wechat/CustomMenu','Wechat\WechatController@CustomMenu');
+Route::get('/wechat/dlWxImg','Wechat\WechatController@dlWxImg');

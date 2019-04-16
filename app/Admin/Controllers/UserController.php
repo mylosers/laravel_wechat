@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Model\WeixinUser;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -9,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class ExampleController extends Controller
+class UserController extends Controller
 {
     use HasResourceActions;
 
@@ -30,7 +31,7 @@ class ExampleController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -45,7 +46,7 @@ class ExampleController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -78,11 +79,22 @@ class ExampleController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new YourModel);
+        $grid = new Grid(new WeixinUser);
 
-        $grid->id('ID')->sortable();
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->id('Id');
+        $grid->uid('Uid');
+        $grid->FromUserName('FromUserName');
+        $grid->CreateTime('CreateTime')->display(function ($time) {
+            return date('Y-m-d H:i:s', $time);
+        });
+        $grid->nickname('Nickname');
+        $grid->sex('Sex');
+        $grid->headimgurl('Headimgurl')->display(function ($image) {
+            return '<img src="' . $image . '">';
+        });
+        $grid->subscribe_time('Subscribe time')->display(function ($time) {
+            return date('Y-m-d H:i:s', $time);
+        });
 
         return $grid;
     }
@@ -90,16 +102,21 @@ class ExampleController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
     {
-        $show = new Show(YourModel::findOrFail($id));
+        $show = new Show(WeixinUser::findOrFail($id));
 
-        $show->id('ID');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->id('Id');
+        $show->uid('Uid');
+        $show->FromUserName('FromUserName');
+        $show->CreateTime('CreateTime');
+        $show->nickname('Nickname');
+        $show->sex('Sex');
+        $show->headimgurl('Headimgurl');
+        $show->subscribe_time('Subscribe time');
 
         return $show;
     }
@@ -111,11 +128,15 @@ class ExampleController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new YourModel);
+        $form = new Form(new WeixinUser);
 
-        $form->display('id', 'ID');
-        $form->display('created_at', 'Created At');
-        $form->display('updated_at', 'Updated At');
+        $form->number('uid', 'Uid');
+        $form->text('FromUserName', 'FromUserName');
+        $form->number('CreateTime', 'CreateTime');
+        $form->text('nickname', 'Nickname');
+        $form->switch('sex', 'Sex');
+        $form->text('headimgurl', 'Headimgurl');
+        $form->number('subscribe_time', 'Subscribe time');
 
         return $form;
     }

@@ -69,18 +69,43 @@ class WechatController extends Controller
                     }
                 }
             }else if($xml->MsgType=='text'){            //用户发送文本消息
-                //记录聊天消息
-                $data = [
-                    'text'       => $xml->Content,
-                    'msgid'     => $xml->MsgId,
-                    'open_id'    => $FromUserName,
-                    'ctime' =>time(),
-                    'type'  => 1        // 1用户发送消息 2客服发送消息
-                ];
-                $id = WeixinChatModel::insertGetId($data);
-                if($id){
-                    $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $xml->Content. date('Y-m-d H:i:s') .']]></Content></xml>';
+                if(strpos($xml->Content,"+天气")!==false){
+                    $arr=explode('+',$xml->Content);
+                    $text=$arr[0];
+                    $url="https://www.tianqiapi.com/api/?version=v1&city=$text";
+                    $obj=file_get_contents($url);
+                    $array=json_decode($obj,true);
+                    $city=$array['city'];//城市
+                    $day=$array['data'][0]['day']; //日期
+                    $date=$array['data'][0]['date']; //具体日期
+                    $week=$array['data'][0]['week']; //周几
+                    $wea=$array['data'][0]['wea']; //天气情况
+                    $air=$array['data'][0]['air']; //空气质量
+                    $humidity=$array['data'][0]['humidity']; //湿度
+                    $air_level=$array['data'][0]['air_level']; //空气质量等级
+                    $air_tips=$array['data'][0]['air_tips']; //空气质量描述
+                    $tem1=$array['data'][0]['tem1']; //白天高温温度
+                    $tem2=$array['data'][0]['tem2']; //晚上低温温度
+                    $tem=$array['data'][0]['tem']; //当前温度
+                    $win=$array['data'][0]['win'][1]; //风向
+                    $win_speed=$array['data'][0]['win_speed']; //风向
+                    $str="城市：$city \n 日期：$day \n 具体日期：$date \n 周：$week \n 天气：$wea \n 空气质量：$air \n 湿度：$humidity \n 空气质量等级：$air_level \n 空气质量描述：$air_tips \n 高温白天温度：$tem1 \n 低温晚上温度：$tem2 \n 当前温度：$tem \n 风向：$win \n 风向：$win_speed";
+                    $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.$str.']]></Content></xml>';
                     echo $xml_response;
+                }else{
+                    //记录聊天消息
+                    $data = [
+                        'text'       => $xml->Content,
+                        'msgid'     => $xml->MsgId,
+                        'open_id'    => $FromUserName,
+                        'ctime' =>time(),
+                        'type'  => 1        // 1用户发送消息 2客服发送消息
+                    ];
+                    $id = WeixinChatModel::insertGetId($data);
+                    if($id){
+                        $xml_response = '<xml><ToUserName><![CDATA['.$FromUserName.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $xml->Content. date('Y-m-d H:i:s') .']]></Content></xml>';
+                        echo $xml_response;
+                    }
                 }
             }elseif($xml->MsgType=='image'){       //用户发送图片信息
                 //视业务需求是否需要下载保存图片

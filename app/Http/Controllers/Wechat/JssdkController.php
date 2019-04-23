@@ -70,4 +70,11 @@ class JssdkController extends Controller
             }
         }
     }
+
+    /**
+     *
+     */
+    public function getImg(){
+        print_r($_GET);die;
+    }
 }

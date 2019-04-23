@@ -13,7 +13,7 @@
         appId: "{{$js_config['appId']}}", // 必填，公众号的唯一标识
         timestamp:"{{$js_config['timestamp']}}" , // 必填，生成签名的时间戳
         nonceStr: "{{$js_config['nonceStr']}}", // 必填，生成签名的随机串
-        signature: "{{$js_config['$sign']}}",// 必填，签名
+        signature: "{{$js_config['signature']}}",// 必填，签名
         jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
     });
 

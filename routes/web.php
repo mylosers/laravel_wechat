@@ -22,3 +22,5 @@ Route::post('/wechat/url','Wechat\WechatController@wxEvent');   //接入
 Route::get('/wechat/access_token','Wechat\WechatController@access_token');   //获取access_token
 Route::get('/wechat/CustomMenu','Wechat\WechatController@CustomMenu');
 Route::get('/wechat/dlWxImg','Wechat\WechatController@dlWxImg');
+Route::get('/wechat/Pay','Wechat\PayController@pay');
+Route::get('/wechat/goods','Wechat\WechatController@goods');

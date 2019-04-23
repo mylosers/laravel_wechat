@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Redis;
 use App\Model\WeixinUser;
 use App\Model\WeixinChatModel;
 use App\Model\WeixinMedia;
+use App\Model\OrderModel;
+
 
 
 class WechatController extends Controller
@@ -334,6 +336,17 @@ class WechatController extends Controller
             echo "NO";
             exit;
         }
+    }
+
+    /**
+     * 支付商品测试
+     */
+    public function goods(){
+        $list = OrderModel::where(['uid'=>2,'is_pay'=>0])->orderBy('oid','desc')->get()->toArray();
+        $data = [
+            'list'  => $list
+        ];
+        return view('goods.order',$data);
     }
 
 }

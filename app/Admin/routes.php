@@ -12,6 +12,10 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('/wechat/user',UserController::class);
+    $router->get('/wechat/access_token', 'UserController@access_token');
+    $router->get('/wechat/MassAll', 'UserController@MassAll');
+    $router->post('/wechat/MassAllAdd', 'UserController@MassAllAdd');
+
 
 
 });

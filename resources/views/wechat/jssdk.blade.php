@@ -2,10 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JSSDK</title>
 </head>
 <body>
-<button id="button">选择图片</button>
+<button id="button" style="width: 200px;height: 100px;background:blue;">选择图片</button>
+<img src="" alt="" id="imgs0" width="300">
+<hr>
+<img src="" alt="" id="imgs1"  width="300">
+<hr>
+<img src="" alt="" id="imgs2"  width="300">
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
@@ -29,6 +37,19 @@
                     var img="";
                     $.each(localIds,function(i,v){
                         img += v+',';
+                        var node = "#imgs"+i;
+                        $(node).attr('src',v);
+
+                        //上传图片
+                        wx.uploadImage({
+                            localId: v, // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res1) {
+                                var serverId = res1.serverId; // 返回图片的服务器端ID
+                                //alert('serverID: '+ serverId);
+                                console.log(res1);
+                            }
+                        });
                     })
 
                     $.ajax({
@@ -38,6 +59,7 @@
                             console.log(d);
                         }
                     });
+                    console.log(img);
                 }
             });
         });

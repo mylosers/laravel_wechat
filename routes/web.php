@@ -24,3 +24,5 @@ Route::get('/wechat/CustomMenu','Wechat\WechatController@CustomMenu');
 Route::get('/wechat/dlWxImg','Wechat\WechatController@dlWxImg');
 Route::get('/wechat/Pay','Wechat\PayController@pay');
 Route::get('/wechat/goods','Wechat\WechatController@goods');
+
+Route::get('/jssdk/test','Wechat\JssdkController@test');

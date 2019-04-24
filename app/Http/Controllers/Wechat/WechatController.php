@@ -109,7 +109,7 @@ class WechatController extends Controller
       <Title><![CDATA[最新商品]]></Title>
       <Description><![CDATA[最新的五条商品]]></Description>
       <PicUrl><![CDATA['.$img.']]></PicUrl>
-      <Url><![CDATA['.$current_url.']]></Url>
+      <Url><![CDATA['.$current_url.'/index.php]]></Url>
     </item>
   </Articles>
 </xml>';

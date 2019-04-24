@@ -94,6 +94,23 @@ class WechatController extends Controller
                     $str="城市：$city \n 日期：$day \n 具体日期：$date \n 周：$week \n 天气：$wea \n 空气质量：$air \n 湿度：$humidity \n 空气质量等级：$air_level \n 空气质量描述：$air_tips \n 高温白天温度：$tem1 \n 低温晚上温度：$tem2 \n 当前温度：$tem \n 风向：$win \n 风向：$win_speed";
                     $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.$str.']]></Content></xml>';
                     echo $xml_response;
+                }else if($xml->Content=="最新商品"){
+                    $xml_response='<xml>
+  <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
+  <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
+  <CreateTime>'.time().'</CreateTime>
+  <MsgType><![CDATA[news]]></MsgType>
+  <ArticleCount>1</ArticleCount>
+  <Articles>
+    <item>
+      <Title><![CDATA[最新商品]]></Title>
+      <Description><![CDATA[最新的五条商品]]></Description>
+      <PicUrl><![CDATA[/image/wallhaven-760893.jpg]]></PicUrl>
+      <Url><![CDATA[http://vm.laravel.com/]]></Url>
+    </item>
+  </Articles>
+</xml>';
+                    echo $xml_response;
                 }else{
                     //记录聊天消息
                     $data = [

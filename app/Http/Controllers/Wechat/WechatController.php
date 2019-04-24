@@ -95,6 +95,8 @@ class WechatController extends Controller
                     $xml_response = '<xml><ToUserName><![CDATA[' . $FromUserName . ']]></ToUserName><FromUserName><![CDATA[' . $ToUserName . ']]></FromUserName><CreateTime>' . time() . '</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.$str.']]></Content></xml>';
                     echo $xml_response;
                 }else if($xml->Content=="最新商品"){
+                    $current_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+//                    echo $current_url;die;
                     $xml_response='<xml>
   <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
   <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
@@ -105,8 +107,8 @@ class WechatController extends Controller
     <item>
       <Title><![CDATA[最新商品]]></Title>
       <Description><![CDATA[最新的五条商品]]></Description>
-      <PicUrl><![CDATA[/image/wallhaven-760893.jpg]]></PicUrl>
-      <Url><![CDATA[http://vm.laravel.com/]]></Url>
+      <PicUrl><![CDATA[/image/全部商品.jpg]]></PicUrl>
+      <Url><![CDATA[$current_url]]></Url>
     </item>
   </Articles>
 </xml>';

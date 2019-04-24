@@ -29,8 +29,8 @@
 
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
             wx.updateAppMessageShareData({
-                title: 'goods', // 分享标题
-                desc: 'new goods', // 分享描述
+                title: '最新商品', // 分享标题
+                desc: '最新商品', // 分享描述
                 link: "{{$js_config['url']}}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: "http://wechat.myloser.club/image/goods.jpg", // 分享图标
                 success: function () {

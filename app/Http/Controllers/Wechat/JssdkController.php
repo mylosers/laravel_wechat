@@ -32,6 +32,7 @@ class JssdkController extends Controller
         $ticket=$this->ticket($access_token);
         $timestamp=time();
         $current_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $img_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
         /*echo 'nonceStr:'.$nonceStr;echo "</br>";
         echo 'ticket:'.$ticket;echo "</br>";
         echo 'timestamp:'.$timestamp;echo "</br>";
@@ -44,6 +45,8 @@ class JssdkController extends Controller
             'timestamp' =>$timestamp,
             'nonceStr' => $nonceStr,
             'signature'=> $sign,
+            'url'=>$current_url,
+            'img_url'=>$img_url,
         ];
         return $js_config;
     }

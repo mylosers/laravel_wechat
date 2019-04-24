@@ -96,7 +96,7 @@ class WechatController extends Controller
                     echo $xml_response;
                 }else if($xml->Content=="最新商品"){
                     $current_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
-                    $img="/imags/goods.jpg";
+                    $img="$current_url/image/goods.jpg";
 //                    echo $current_url;die;
                     $xml_response='<xml>
   <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>

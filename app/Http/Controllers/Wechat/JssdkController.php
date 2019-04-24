@@ -14,6 +14,17 @@ class JssdkController extends Controller
      * 测试
      */
     public function test(){
+        $js_config=$this->jssdk();
+        $data=[
+            'js_config' =>$js_config
+        ];
+        return view('wechat.jssdk',$data);
+    }
+
+    /**
+     * 获取jssdk数据
+     */
+    public function jssdk(){
         //获取access_token
         $access_token=$this->access_token();
         //计算签名
@@ -34,10 +45,7 @@ class JssdkController extends Controller
             'nonceStr' => $nonceStr,
             'signature'=> $sign,
         ];
-        $data=[
-            'js_config' =>$js_config
-        ];
-        return view('wechat.jssdk',$data);
+        return $js_config;
     }
 
     /**

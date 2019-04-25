@@ -62,6 +62,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <a class="btn btn-link" href="/wechat/code">
+                                    网页授权
+                                </a>
                             </div>
                         </div>
                     </form>

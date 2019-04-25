@@ -375,13 +375,13 @@ class WechatController extends Controller
     public function code(){
         $redirect_uri=urlencode("http://wechat.myloser.club/result");
         $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WX_APPID').'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-        dd($url);
+        return $url;
     }
     public function result(Request $request)
     {
         $arr = $request->input();
         $code = $arr['code'];
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . env('WEIXIN_APPID') . "&secret=" . env('WEIXIN_APPSECRET') . "&code=$code&grant_type=authorization_code";
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . env('WX_APPID') . "&secret=" . env('WX_APPSECRET') . "&code=$code&grant_type=authorization_code";
         $info = file_get_contents($url);
         $arr = json_decode($info, true);
         $access_token = $arr['access_token'];

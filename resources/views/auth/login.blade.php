@@ -62,7 +62,7 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                                <a class="btn btn-link" href="/wechat/code">
+                                <a href="" id="code">
                                     网页授权
                                 </a>
                             </div>
@@ -73,4 +73,19 @@
         </div>
     </div>
 </div>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(function(){
+        $("#code").click(function(){
+            $.ajax({
+                type:"GET",
+                url:"/wechat/code",
+                success:function(msg){
+                    window.location.href=msg;
+                }
+            });
+            return false;
+        })
+    })
+</script>
 @endsection

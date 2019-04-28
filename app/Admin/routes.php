@@ -15,7 +15,13 @@ Route::group([
     $router->get('/wechat/access_token', 'UserController@access_token');
     $router->get('/wechat/MassAll', 'UserController@MassAll');
     $router->post('/wechat/MassAllAdd', 'UserController@MassAllAdd');
+    $router->get('/wechat/snap', 'UserController@snap');
+    $router->post('/wechat/upload', 'UserController@upload');
+    $router->resource('/wechat/snapList',SnapController::class);
 
 
+
+    //素材管理
+    $router->get('/wx/media/add_img', 'WxController@addImg');
 
 });

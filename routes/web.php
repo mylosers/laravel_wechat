@@ -45,3 +45,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/wechat/code','Wechat\WechatController@code');
 Route::get('/result','Wechat\WechatController@result');
+
+Route::get('/wechat/qbcode','Wechat\WechatController@qbcode');

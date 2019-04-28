@@ -391,4 +391,33 @@ class WechatController extends Controller
         print_r($data);
     }
 
+    /**
+     * 带参数二维码
+     */
+    public function qbcode(){
+        $url='https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$this->access_token();
+        $arr=[
+            "expire_seconds"=> 604800,
+            "action_name"=> "QR_SCENE",
+            "action_info"=> [
+                "scene"=> [
+                    "scene_id"=> 123
+                ]
+            ]
+        ];
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($arr,JSON_UNESCAPED_UNICODE)
+        ]);
+        // 3 解析微信接口返回信息
+        $response_arr = json_decode($r->getBody(),true);
+        if($response_arr['ticket']!=""){
+            $qburl=$response_arr['url'];
+            dump($qburl);
+            $ticket=$response_arr['ticket'];
+            $qburl='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket;
+            dump($qburl);
+        }
+    }
+
 }

@@ -412,11 +412,9 @@ class WechatController extends Controller
         // 3 解析微信接口返回信息
         $response_arr = json_decode($r->getBody(),true);
         if($response_arr['ticket']!=""){
-            $qburl=$response_arr['url'];
-            dump($qburl);
             $ticket=$response_arr['ticket'];
             $qburl='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket;
-            dump($qburl);
+            header('Location:'.$qburl);
         }
     }
 

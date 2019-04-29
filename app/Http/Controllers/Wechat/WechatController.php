@@ -135,9 +135,9 @@ class WechatController extends Controller
                             <ArticleCount>1</ArticleCount>
                             <Articles>
                             <item>
-                              <Title><![CDATA['.$goods['goods_name'].']></Title>
+                              <Title><![CDATA['.$goods['goods_name'].']]></Title>
                               <Description><![CDATA['.$goods['goods_name'].']]></Description>
-                              <PicUrl><![CDATA['.$goods['img_url'].']></PicUrl>
+                              <PicUrl><![CDATA['.$goods['img_url'].']]></PicUrl>
                               <Url><![CDATA['.$goods_url.']]></Url>
                             </item>
                             </Articles>

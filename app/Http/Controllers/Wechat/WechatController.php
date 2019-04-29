@@ -11,6 +11,7 @@ use App\Model\WeixinUser;
 use App\Model\WeixinChatModel;
 use App\Model\WeixinMedia;
 use App\Model\OrderModel;
+use App\Model\GoodsModel;
 
 
 
@@ -70,7 +71,7 @@ class WechatController extends Controller
                         echo $xml_response;
                     }
                 }
-            }else if($xml->MsgType=='text'){            //用户发送文本消息
+            }else if($xml->MsgType=='text'){        //用户发送文本消息
                 if(strpos($xml->Content,"+天气")!==false){
                     $arr=explode('+',$xml->Content);
                     $text=$arr[0];
@@ -114,6 +115,60 @@ class WechatController extends Controller
   </Articles>
 </xml>';
                     echo $xml_response;
+                }else if(strpos($xml->Content,"商品+")!==false){
+                    $arr=explode('+',$xml->Content);
+                    $text=$arr[1];
+                    $goods=GoodsModel::where(['goods_name'=>$text])->first();
+                    if($goods){
+                        $goods=$goods->toArray();
+                    }else{
+                        $goods="";
+                    }
+                    $current_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+                    if($goods){
+                        $goods_url=$current_url.'/goods/'.$goods['goods_id'];
+                        $xml_response='<xml>
+                            <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
+                            <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
+                            <CreateTime>'.time().'</CreateTime>
+                            <MsgType><![CDATA[news]]></MsgType>
+                            <ArticleCount>1</ArticleCount>
+                            <Articles>
+                            <item>
+                              <Title><![CDATA['.$goods['goods_name'].']></Title>
+                              <Description><![CDATA['.$goods['goods_name'].']]></Description>
+                              <PicUrl><![CDATA['.$goods['img_url'].']></PicUrl>
+                              <Url><![CDATA['.$goods_url.']]></Url>
+                            </item>
+                            </Articles>
+                            </xml>';
+                        echo $xml_response;
+                    }else{
+                        $id=rand(1,8);
+                        $goods=GoodsModel::where(['goods_id'=>$id])->first();
+                        if($goods){
+                            $goods=$goods->toArray();
+                        }else{
+                            $goods="";
+                        }
+                        $goods_url=$current_url.'/goods/'.$goods['goods_id'];
+                        $xml_response='<xml>
+                            <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
+                            <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
+                            <CreateTime>'.time().'</CreateTime>
+                            <MsgType><![CDATA[news]]></MsgType>
+                            <ArticleCount>1</ArticleCount>
+                            <Articles>
+                            <item>
+                              <Title><![CDATA[随机商品]]></Title>
+                              <Description><![CDATA[随机商品]]></Description>
+                              <PicUrl><![CDATA['.$goods['img_url'].']></PicUrl>
+                              <Url><![CDATA['.$goods_url.']]></Url>
+                            </item>
+                            </Articles>
+                            </xml>';
+                        echo $xml_response;
+                    }
                 }else{
                     //记录聊天消息
                     $data = [

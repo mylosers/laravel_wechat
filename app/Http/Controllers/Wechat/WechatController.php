@@ -251,6 +251,9 @@ class WechatController extends Controller
     public function CustomMenu(){
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token();
         $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $current_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+        $view_url=$current_url."/wechat/code";
+        $view_url=file_get_contents($view_url);
         $data = [
             "button"    => [
                 [
@@ -285,9 +288,9 @@ class WechatController extends Controller
                             "key" => "rselfmenu_2_0"
                         ],
                         [
-                            "name" => "回复时间",
-                            'type' => "click",
-                            "key" => "kefu01"
+                            "name" => "最新福利",
+                            'type' => "view",
+                            "url" => $view_url
                         ],
                         [
                             "name" => "哔哩哔哩",
@@ -317,17 +320,19 @@ class WechatController extends Controller
                 ]
             ]
         ];
+//        print_r($data);die;
         $r = $client->request('POST', $url, [
             'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
         ]);
         // 3 解析微信接口返回信息
         $response_arr = json_decode($r->getBody(),true);
-        if($response_arr['errcode'] == 0){
+        print_r($response_arr);die;
+  /*      if($response_arr['errcode'] == 0){
             echo "菜单创建成功";
         }else{
             echo "菜单创建失败，请重试";echo '</br>';
             echo $response_arr['errmsg'];
-        }
+        }*/
     }
 
     /**
@@ -434,8 +439,8 @@ class WechatController extends Controller
     }
     public function result(Request $request)
     {
-        $arr = $request->input();
-        $code = $arr['code'];
+        $data = file_get_contents("php://input");
+        $code = $data['code'];
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . env('WX_APPID') . "&secret=" . env('WX_APPSECRET') . "&code=$code&grant_type=authorization_code";
         $info = file_get_contents($url);
         $arr = json_decode($info, true);

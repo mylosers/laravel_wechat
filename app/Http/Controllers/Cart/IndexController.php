@@ -137,8 +137,12 @@ class IndexController extends Controller
             'utime'=>time()
         ];
         GoodsModel::where(['goods_id'=>$goods_id])->update($num_data);
+        $jssdk=new JssdkController();
+        $js_config=$jssdk->jssdk();
         $data = [
-            'goods' => $goods
+            'goods' => $goods,
+            'js_config'=>$js_config
+
         ];
         return view('goods.goods', $data);
     }

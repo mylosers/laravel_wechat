@@ -449,7 +449,10 @@ class WechatController extends Controller
         $openid=$arr['openid'];
         $user_url="https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid&lang=zh_CN";
         $data = json_decode(file_get_contents($user_url),true);
-        print_r($data);
+        //授权成功页面
+        $id=rand(1,8);
+        echo '<h5>欢迎'.$data['nickname'].'，正在跳转福利页面</h5>';
+        header("refresh:3;url=http://wechat.myloser.club/goods/$id");
     }
 
     /**

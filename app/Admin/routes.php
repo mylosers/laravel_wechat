@@ -18,6 +18,7 @@ Route::group([
     $router->get('/wechat/snap', 'UserController@snap');
     $router->post('/wechat/upload', 'UserController@upload');
     $router->resource('/wechat/snapList',SnapController::class);
+    $router->resource('/wechat/goods',GoodsController::class);
 
 
 

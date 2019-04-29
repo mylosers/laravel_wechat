@@ -433,21 +433,22 @@ class WechatController extends Controller
      * 获取code
      */
     public function code(){
-        $redirect_uri=urlencode("http://wechat.myloser.club/result");
-        $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WX_APPID').'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+        $result=urlencode("http://wechat.myloser.club/result");
+        $scode="snsapi_userinfo";
+        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".env('WX_APPID')."&redirect_uri=$result&response_type=code&scope=$scode&state=STATE#wechat_redirect";
         return $url;
     }
     public function result(Request $request)
     {
-        $data = file_get_contents("php://input");
-        $code = $data['code'];
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . env('WX_APPID') . "&secret=" . env('WX_APPSECRET') . "&code=$code&grant_type=authorization_code";
-        $info = file_get_contents($url);
-        $arr = json_decode($info, true);
-        $access_token = $arr['access_token'];
-        $openid = $arr['openid'];
-        $user_url = "https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid&lang=zh_CN";
-        $data = json_decode(file_get_contents($user_url), true);
+        $arr=$request->input();
+        $code=$arr['code'];
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=".env('WX_APPID')."&secret=".env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";
+        $info=file_get_contents($url);
+        $arr=json_decode($info,true);
+        $access_token=$arr['access_token'];
+        $openid=$arr['openid'];
+        $user_url="https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid&lang=zh_CN";
+        $data = json_decode(file_get_contents($user_url),true);
         print_r($data);
     }
 

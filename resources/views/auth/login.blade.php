@@ -63,7 +63,7 @@
                                     </a>
                                 @endif
                                 <a href="" id="code">
-                                    网页授权
+                                    网页授权（第三方登陆）
                                 </a>
                             </div>
                         </div>

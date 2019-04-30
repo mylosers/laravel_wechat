@@ -71,7 +71,7 @@ class KaoController extends Controller
                     //使用redis缓存
                     $redis=new \Redis();
                     $redis->connect('127.0.0.1',6379);
-                    $key="key";
+                    $key="key_shop_info";
                     $val=$text;
                     $redis->set($key,$val);
                     //入库
